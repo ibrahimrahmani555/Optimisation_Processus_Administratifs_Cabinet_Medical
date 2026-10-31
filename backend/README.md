@@ -10,6 +10,6 @@ API Spring Boot du projet Cabinet Medical.
 
 ## Lancement
 
-Depuis la racine, lancer PostgreSQL avec `docker compose up -d postgres`, puis executer `mvn spring-boot:run` dans ce dossier.
+Depuis la racine, lancer PostgreSQL avec `docker compose up -d postgres`, puis executer `mvn spring-boot:run` dans ce dossier. Le backend charge automatiquement le fichier `.env` situe a la racine ; les variables d'environnement du systeme restent prioritaires.
 
 Endpoint public de verification : `GET /api/health`.
