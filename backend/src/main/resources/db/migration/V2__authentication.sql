@@ -1,0 +1,23 @@
+CREATE TABLE cabinets (
+    id UUID PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    cabinet_id UUID NOT NULL REFERENCES cabinets(id),
+    first_name VARCHAR(80) NOT NULL,
+    last_name VARCHAR(80) NOT NULL,
+    email VARCHAR(190) NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_users_role CHECK (role IN ('ADMIN', 'SECRETAIRE', 'MEDECIN'))
+);
+
+CREATE UNIQUE INDEX uk_users_email_lower ON users (LOWER(email));
+CREATE INDEX idx_users_cabinet ON users (cabinet_id);

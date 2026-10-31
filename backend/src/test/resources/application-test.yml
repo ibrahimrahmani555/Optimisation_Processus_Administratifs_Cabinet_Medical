@@ -9,3 +9,7 @@ spring:
       ddl-auto: create-drop
   flyway:
     enabled: false
+app:
+  security:
+    jwt-secret: test-secret-must-contain-at-least-32-bytes
+    access-token-minutes: 5

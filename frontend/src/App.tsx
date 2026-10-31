@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+import { getCurrentUser, logout } from './auth';
+import type { AuthUser } from './auth';
+import LoginPage from './LoginPage';
+
 const stats = [
   { label: 'Medecins', value: '24', delta: '+4,8 %', tone: 'indigo' },
   { label: 'Patients', value: '1 248', delta: '+2,2 %', tone: 'orange' },
@@ -14,6 +19,28 @@ const appointments = [
 const months = [38, 45, 58, 52, 70, 34, 44, 62, 76, 69, 53, 47];
 
 export default function App() {
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    getCurrentUser()
+      .then(setUser)
+      .catch(() => setUser(null))
+      .finally(() => setCheckingSession(false));
+  }, []);
+
+  if (checkingSession) {
+    return <div className="session-loader" role="status"><span className="brand-mark"><i /><i /></span><p>Verification de votre session...</p></div>;
+  }
+
+  if (!user) {
+    return <LoginPage onAuthenticated={setUser} />;
+  }
+
+  const roleLabels = { ADMIN: 'Administrateur', SECRETAIRE: 'Secretaire', MEDECIN: 'Medecin' };
+  const initials = `${user.firstName[0] || ''}${user.lastName[0] || ''}`.toUpperCase();
+  const handleLogout = () => { logout(); setUser(null); };
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -21,20 +48,13 @@ export default function App() {
           <span className="brand-mark"><i /><i /></span>
           <strong>Cabinet<span>Medical</span></strong>
         </a>
-        <div className="clinic-card"><span className="clinic-avatar">CM</span><div><strong>Cabinet Central</strong><small>Casablanca</small></div></div>
+        <div className="clinic-card"><span className="clinic-avatar">CM</span><div><strong>{user.cabinetName}</strong><small>Espace securise</small></div></div>
         <nav aria-label="Navigation principale">
           <p>MENU PRINCIPAL</p>
           <a className="active" href="#dashboard"><span>DB</span>Tableau de bord</a>
-          <a href="#patients"><span>PA</span>Patients</a>
-          <a href="#appointments"><span>RD</span>Rendez-vous</a>
-          <a href="#waiting"><span>FA</span>File d'attente</a>
-          <p>GESTION MEDICALE</p>
-          <a href="#consultations"><span>CO</span>Consultations</a>
-          <a href="#records"><span>DM</span>Dossiers medicaux</a>
-          <a href="#prescriptions"><span>OR</span>Ordonnances</a>
-          <p>ADMINISTRATION</p>
-          <a href="#billing"><span>FC</span>Facturation</a>
-          <a href="#users"><span>UT</span>Utilisateurs</a>
+          {user.role !== 'ADMIN' && <><a href="#patients"><span>PA</span>Patients</a><a href="#appointments"><span>RD</span>Rendez-vous</a><a href="#waiting"><span>FA</span>File d'attente</a></>}
+          {user.role === 'MEDECIN' && <><p>GESTION MEDICALE</p><a href="#consultations"><span>CO</span>Consultations</a><a href="#records"><span>DM</span>Dossiers medicaux</a><a href="#prescriptions"><span>OR</span>Ordonnances</a></>}
+          {(user.role === 'ADMIN' || user.role === 'SECRETAIRE') && <><p>ADMINISTRATION</p>{user.role === 'SECRETAIRE' && <a href="#billing"><span>FC</span>Facturation</a>}{user.role === 'ADMIN' && <a href="#users"><span>UT</span>Utilisateurs</a>}</>}
         </nav>
       </aside>
 
@@ -44,7 +64,7 @@ export default function App() {
           <div className="top-actions">
             <button className="ai-button">Assistant medical</button>
             <button className="icon-button" aria-label="Notifications">●</button>
-            <div className="profile"><span>IB</span><div><strong>Admin</strong><small>Administrateur</small></div></div>
+            <button className="profile" type="button" onClick={handleLogout} title="Se deconnecter"><span>{initials}</span><div><strong>{user.firstName} {user.lastName}</strong><small>{roleLabels[user.role]} · Deconnexion</small></div></button>
           </div>
         </header>
 
