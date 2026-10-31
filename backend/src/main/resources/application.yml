@@ -1,13 +1,13 @@
-server:
-  port: ${BACKEND_PORT:8080}
 
 spring:
+  config:
+    import: optional:file:../.env[.properties]
   application:
     name: cabinet-medical-api
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/cabinet_medical}
-    username: ${DATABASE_USERNAME:cabinet_user}
-    password: ${DATABASE_PASSWORD:change_me}
+    username: ${DATABASE_USERNAME:cabinet_user_ibra}
+    password: ${DATABASE_PASSWORD:2003}
   jpa:
     open-in-view: false
     hibernate:
@@ -15,6 +15,11 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+server:
+  port: ${PORT:${BACKEND_PORT:8081}}
+  forward-headers-strategy: framework
+
 
 app:
   security:
