@@ -373,6 +373,36 @@ nav a.active { border: 1px solid rgba(53, 56, 205, .14); }
 .status-badge.info { border-color: #a9c8f5; color: #356fc3; background: #f0f6ff; }
 .sidebar-overlay { display: none; }
 
+/* ---------- 12. Admin dashboard reference ---------- */
+main { padding: 24px 28px 42px; }
+.page-heading { margin-bottom: 18px; }
+.page-heading p { color: #7d8799; }
+.page-heading h1 { color: #14213d; font-size: 22px; }
+.page-heading .secondary { min-width: 94px; }
+.admin-stat-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.admin-stat-grid .stat-card { min-height: 116px; padding: 14px; border-color: #e5e9f0; border-radius: 7px; box-shadow: 0 2px 8px rgba(31, 45, 75, .04); }
+.admin-stat-grid .stat-top { align-items: flex-start; }
+.admin-stat-grid .stat-icon { width: 34px; height: 34px; }
+.admin-stat-grid .stat-period { margin-top: 3px; font-size: 9px; }
+.admin-stat-grid .stat-card p { margin: 11px 0 3px; font-size: 10px; }
+.admin-stat-grid .stat-card > strong { color: #17243e; font-size: 22px; }
+.admin-chart-grid { grid-template-columns: minmax(0, 1.65fr) minmax(285px, 1fr); gap: 14px; margin-top: 14px; }
+.admin-chart-panel { min-height: 306px; }
+.chart-card { padding: 16px; }
+.chart-card__header { padding-bottom: 11px; }
+.chart-card__header h2 { font-size: 14px; font-weight: 700; }
+.chart-card__header p { font-size: 10px; }
+.chart-select { cursor: pointer; font-size: 9px; }
+.rechart-wrap { height: 224px; margin-top: 12px; }
+.pie-wrap { height: 205px; }
+.chart-labels { font-size: 9px; }
+.activities-panel { margin-top: 14px; padding: 16px; border-radius: 8px; }
+.activities-panel .panel-title h2 { color: #17243e; font-size: 14px; }
+.activity-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+.activity-row { padding: 13px 0; }
+.activity-row strong { font-size: 10px; }
+.activity-row small { font-size: 9px; }
+
 @media (min-width: 1400px) { .admin-stat-grid { grid-template-columns: repeat(6, minmax(140px, 1fr)); } }
 @media (max-width: 1200px) { .admin-stat-grid { gap: 14px; } .stat-card--preclinic { padding: 15px; } }
 @media (max-width: 760px) {
@@ -392,4 +422,7 @@ nav a.active { border: 1px solid rgba(53, 56, 205, .14); }
   .stat-card--preclinic > strong { font-size: 23px; }
   .chart-card, .activities-panel { padding: 15px; }
   .chart-card__header h2, .activities-panel .panel-title h2 { font-size: 15px; }
+  main { padding: 20px 14px 32px; }
+  .admin-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .activity-list { grid-template-columns: 1fr; }
 }

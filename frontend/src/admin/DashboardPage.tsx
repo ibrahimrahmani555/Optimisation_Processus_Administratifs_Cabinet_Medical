@@ -28,7 +28,7 @@ export default function DashboardPage({ user }: DashboardPageProps) {
   return (
     <main>
       <div className="page-heading">
-        <div><p>Vue d’ensemble · {user.cabinetName}</p><h1>Tableau de bord ADMIN</h1></div>
+        <div><p>Vue d’ensemble · {user.cabinetName}</p><h1>Admin Dashboard</h1></div>
         <button className="secondary" type="button" onClick={() => queryClient.invalidateQueries({ queryKey: dashboardQueryKey })}>Actualiser</button>
       </div>
       <StatisticsCards statistics={dashboard.data.statistics} />

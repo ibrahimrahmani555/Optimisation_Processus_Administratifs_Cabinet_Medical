@@ -2,6 +2,7 @@ import {
   Bar, BarChart, CartesianGrid, Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer,
   Tooltip, XAxis, YAxis,
 } from 'recharts';
+import { ChevronDown } from 'lucide-react';
 import type { DashboardData } from './types';
 
 interface DashboardChartsProps {
@@ -14,8 +15,8 @@ const roleColors = ['#343cac', '#12bdd2', '#e94f89'];
 export default function DashboardCharts({ data }: DashboardChartsProps) {
   return (
     <section className="dashboard-grid admin-chart-grid">
-      <article className="panel admin-chart-panel">
-        <div className="panel-title"><div><h2>Évolution des cabinets</h2><p>Inscriptions mensuelles</p></div></div>
+      <article className="panel admin-chart-panel chart-card chart-card--wide">
+        <div className="chart-card__header"><div><h2>Évolution des cabinets</h2><p>Inscriptions mensuelles</p></div><button className="chart-select" type="button">Mensuel <ChevronDown size={12} /></button></div>
         <div className="rechart-wrap">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data.cabinetsEvolution} margin={{ top: 10, right: 12, left: -20, bottom: 0 }}>
@@ -29,8 +30,8 @@ export default function DashboardCharts({ data }: DashboardChartsProps) {
         </div>
       </article>
 
-      <article className="panel admin-chart-panel">
-        <div className="panel-title"><div><h2>Statut des cabinets</h2><p>Répartition actuelle</p></div></div>
+      <article className="panel admin-chart-panel chart-card">
+        <div className="chart-card__header"><div><h2>Statut des cabinets</h2><p>Répartition actuelle</p></div><button className="chart-select" type="button">Tous <ChevronDown size={12} /></button></div>
         <div className="rechart-wrap pie-wrap">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -44,8 +45,8 @@ export default function DashboardCharts({ data }: DashboardChartsProps) {
         <div className="chart-labels">{data.cabinetStatusDistribution.map((item, index) => <span key={item.status}><i style={{ background: statusColors[index % statusColors.length] }} />{item.status === 'ACTIVE' ? 'Actifs' : 'Inactifs'} ({item.value})</span>)}</div>
       </article>
 
-      <article className="panel admin-chart-panel">
-        <div className="panel-title"><div><h2>Utilisateurs par rôle</h2><p>Répartition globale</p></div></div>
+      <article className="panel admin-chart-panel chart-card">
+        <div className="chart-card__header"><div><h2>Utilisateurs par rôle</h2><p>Répartition globale</p></div><button className="chart-select" type="button">Global <ChevronDown size={12} /></button></div>
         <div className="rechart-wrap pie-wrap">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -59,8 +60,8 @@ export default function DashboardCharts({ data }: DashboardChartsProps) {
         <div className="chart-labels">{data.usersDistribution.map((item, index) => <span key={item.role}><i style={{ background: roleColors[index % roleColors.length] }} />{item.role} ({item.value})</span>)}</div>
       </article>
 
-      <article className="panel admin-chart-panel">
-        <div className="panel-title"><div><h2>Évolution des inscriptions</h2><p>Utilisateurs et patients</p></div></div>
+      <article className="panel admin-chart-panel chart-card">
+        <div className="chart-card__header"><div><h2>Évolution des inscriptions</h2><p>Utilisateurs et patients</p></div><button className="chart-select" type="button">Mensuel <ChevronDown size={12} /></button></div>
         <div className="rechart-wrap">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data.registrationsEvolution} margin={{ top: 10, right: 12, left: -20, bottom: 0 }}>
