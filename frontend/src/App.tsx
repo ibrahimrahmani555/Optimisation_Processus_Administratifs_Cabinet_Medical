@@ -3,17 +3,31 @@ import { getCurrentUser, logout } from './auth';
 import type { AuthUser } from './auth';
 import AdminLayout from './admin/AdminLayout';
 import DashboardPage from './admin/DashboardPage';
+import CabinetPage from './admin/CabinetPage';
 import LoginPage from './LoginPage';
+
+type AdminPage = 'dashboard' | 'cabinets';
+
+function pageFromHash(): AdminPage {
+  return window.location.hash === '#cabinets' ? 'cabinets' : 'dashboard';
+}
 
 export default function App() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
+  const [page, setPage] = useState<AdminPage>(pageFromHash);
 
   useEffect(() => {
     getCurrentUser()
       .then(setUser)
       .catch(() => setUser(null))
       .finally(() => setCheckingSession(false));
+  }, []);
+
+  useEffect(() => {
+    const onHashChange = () => setPage(pageFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   if (checkingSession) {
@@ -29,8 +43,18 @@ export default function App() {
   }
 
   return (
-    <AdminLayout user={user} onLogout={() => { logout(); setUser(null); }}>
-      <DashboardPage user={user} />
+    <AdminLayout
+      user={user}
+      activePage={page}
+      onNavigate={(nextPage) => {
+        setPage(nextPage);
+        window.location.hash = nextPage;
+      }}
+      onLogout={() => { logout(); setUser(null); }}
+    >
+      {page === 'cabinets'
+        ? <CabinetPage />
+        : <DashboardPage user={user} />}
     </AdminLayout>
   );
 }

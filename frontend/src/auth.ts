@@ -26,7 +26,7 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+export async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = sessionStorage.getItem(TOKEN_KEY);
   const response = await fetch(`${API_URL}${path}`, {
     ...options,
@@ -45,7 +45,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 }
 
 export async function login(email: string, password: string): Promise<AuthUser> {
-  const response = await request<LoginResponse>('/auth/login', {
+  const response = await apiRequest<LoginResponse>('/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
@@ -56,7 +56,7 @@ export async function login(email: string, password: string): Promise<AuthUser> 
 export async function getCurrentUser(): Promise<AuthUser | null> {
   if (!sessionStorage.getItem(TOKEN_KEY)) return null;
   try {
-    return await request<AuthUser>('/auth/me');
+    return await apiRequest<AuthUser>('/auth/me');
   } catch (error) {
     if (error instanceof ApiError && error.status === 401) {
       logout();

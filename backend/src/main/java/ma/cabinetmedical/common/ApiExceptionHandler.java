@@ -1,6 +1,8 @@
 package ma.cabinetmedical.common;
 
 import ma.cabinetmedical.auth.InvalidCredentialsException;
+import ma.cabinetmedical.cabinet.CabinetNotFoundException;
+import ma.cabinetmedical.cabinet.DuplicateCabinetNameException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +18,21 @@ public class ApiExceptionHandler {
     @ExceptionHandler(InvalidCredentialsException.class)
     ResponseEntity<Map<String, Object>> invalidCredentials(InvalidCredentialsException exception) {
         return error(HttpStatus.UNAUTHORIZED, exception.getMessage(), null);
+    }
+
+    @ExceptionHandler(CabinetNotFoundException.class)
+    ResponseEntity<Map<String, Object>> cabinetNotFound(CabinetNotFoundException exception) {
+        return error(HttpStatus.NOT_FOUND, exception.getMessage(), null);
+    }
+
+    @ExceptionHandler(DuplicateCabinetNameException.class)
+    ResponseEntity<Map<String, Object>> duplicateCabinetName(DuplicateCabinetNameException exception) {
+        return error(HttpStatus.CONFLICT, exception.getMessage(), null);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<Map<String, Object>> illegalArgument(IllegalArgumentException exception) {
+        return error(HttpStatus.BAD_REQUEST, exception.getMessage(), null);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -5,11 +5,13 @@ import logo from '../public/logo.png';
 
 interface AdminLayoutProps {
   user: AuthUser;
+  activePage: 'dashboard' | 'cabinets';
+  onNavigate: (page: 'dashboard' | 'cabinets') => void;
   onLogout: () => void;
   children: ReactNode;
 }
 
-export default function AdminLayout({ user, onLogout, children }: AdminLayoutProps) {
+export default function AdminLayout({ user, activePage, onNavigate, onLogout, children }: AdminLayoutProps) {
   const initials = `${user.firstName[0] || ''}${user.lastName[0] || ''}`.toUpperCase();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -28,10 +30,10 @@ export default function AdminLayout({ user, onLogout, children }: AdminLayoutPro
         </div>
         <nav aria-label="Navigation administrateur">
           <p>Menu principal</p>
-          <a className="active" href="#dashboard"><LayoutDashboard size={16} />Tableau de bord<ChevronRight className="nav-chevron" size={14} /></a>
+          <a className={activePage === 'dashboard' ? 'active' : ''} href="#dashboard" onClick={(event) => { event.preventDefault(); onNavigate('dashboard'); }}><LayoutDashboard size={16} />Tableau de bord<ChevronRight className="nav-chevron" size={14} /></a>
           <a href="#overview"><LayoutDashboard size={16} />Vue d’ensemble</a>
           <p>Administration</p>
-          <a href="#cabinets"><Building2 size={16} />Cabinets</a>
+          <a className={activePage === 'cabinets' ? 'active' : ''} href="#cabinets" onClick={(event) => { event.preventDefault(); onNavigate('cabinets'); }}><Building2 size={16} />Cabinets</a>
           <a href="#users"><Users size={16} />Utilisateurs</a>
           <a href="#audit"><FileClock size={16} />Journal d'audit</a>
           <a href="#settings"><Settings size={16} />Paramètres</a>

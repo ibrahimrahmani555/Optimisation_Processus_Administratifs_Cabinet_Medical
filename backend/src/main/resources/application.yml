@@ -15,6 +15,10 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
 
 server:
   port: ${PORT:${BACKEND_PORT:8081}}
@@ -31,3 +35,5 @@ app:
     admin-password: ${BOOTSTRAP_ADMIN_PASSWORD:}
   cors:
     allowed-origin: ${FRONTEND_URL:http://localhost:5173}
+    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
+    allowed-headers: Content-Type,Authorization

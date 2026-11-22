@@ -23,6 +23,9 @@ public class Cabinet {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
     protected Cabinet() {
     }
 
@@ -36,5 +39,8 @@ public class Cabinet {
     public String getName() { return name; }
     public boolean isActive() { return active; }
     public Instant getCreatedAt() { return createdAt; }
+    public String getImageUrl() { return imageUrl; }
+    public void setName(String name) { this.name = name; }
     public void setActive(boolean active) { this.active = active; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }
